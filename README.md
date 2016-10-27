@@ -1,3 +1,11 @@
+<p align="center">
+  <img
+    alt="Media Events Logo"
+    src="https://raw.githubusercontent.com/benjaminjt/micro-nervous/master/logo/logo.png"
+    width="100px"
+  />
+</p>
+
 Micro-Nervous is a minimal micro-services framework for Node.
 
 It aims to reduce boilerplate and improve code clarity by managing resource connections, healthchecks, stats, and graceful shutdown with simple patterns.
