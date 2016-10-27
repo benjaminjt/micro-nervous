@@ -13,6 +13,10 @@ It aims to reduce boilerplate and improve code clarity by managing resource conn
 All with zero dependencies (because size matters).
 </p>
 
+</br>
+---
+</br>
+
 ### Install
 
 ```bash
