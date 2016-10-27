@@ -9,7 +9,7 @@ All with zero dependencies (because size matters).
 npm install git+https://git@github.com/benjaminjt/micro-nervous.git
 ```
 
-### Basic Setup
+### Overview
 
 ```js
 import { Nerve, Service } from `micro-nervous`;
@@ -92,3 +92,7 @@ class MyService extends Service {
 ```
 
 Incidentally, `stats().ok` is used for the healthckec: `true` for `200`, anything else gives you a `503`.
+
+### Nerves
+
+The `Nerves` class also provides a `#fire` method to emit events on the `Service` instance. This is useful for hooking up logging or monitoring.
