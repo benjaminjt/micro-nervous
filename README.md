@@ -28,30 +28,28 @@ npm install git+https://git@github.com/benjaminjt/micro-nervous.git
 ### Overview
 
 ```js
-import { Nerve, Service } from `micro-nervous`;
+const { Nerve, Service } = require('micro-nervous');
 
 // Resources/Connections are 'Nerves'; just simple classes with a basic interface
 class RedisNerve extends Nerve {
-  connect(done) {
+  init() {
     // Connection logic goes here:
-    const redis = new Redis('redis://:password@my.redis.resource:6379');
+    this.redis = new Redis('redis://:password@my.redis.resource:6379');
 
-    // When our connection is ready, just call `done`
-    redis.once('ready', () => done(redis));
+    // When our connection is ready, just call `this.fire('ready')`
+    this.redis.once('ready', () => this.fire('ready'));
   }
-  poweroff(done) {
+  exit() {
     // Disconnection logic goes here, as expected:
-    redis.once('end', () => done());
+    redis.once('end', () => this.fire('end'));
     redis.disconnect();
-
-    // You could also return promises from these methods
   }
 }
 
 // An instance of the Service class just ties together Nerves
 const service = new Service(options, { 
-  pubRedis: new RedisNerve(),
-  subRedis: new RedisNerve(),
+  pub: new RedisNerve(),
+  sub: new RedisNerve(),
 });
 
 // This gives you an event emitter, nothing too special
@@ -66,8 +64,8 @@ process.on('SIGTERM', () => service.poweroff());
 // Just like Service#connect gets your connections started
 service.connect();
 
-// You also get access to watever you parse to `done` (or resolve your promise with)
-service.nerve.subRedis.subscribe('channel', (message) => {
+// You also get access to the Nerve instances
+service.nerve.sub.redis.subscribe('channel', (message) => {
   // And a tasking system to prevent unwanted shutdowns
   const id = service.newTask();
   // Now poweroff will wait...
@@ -78,8 +76,8 @@ service.nerve.subRedis.subscribe('channel', (message) => {
   service.endTask(id);
 });
 
-// Your objects are attached using the keys used in the constructor
-service.nerve.pubRedis.publish('channel', 'hello world!');
+// The Nerve instances are attached using the keys used in the constructor
+service.nerve.pub.redis.publish('channel', 'hello world!');
 ```
 
 ### Healthchecks
