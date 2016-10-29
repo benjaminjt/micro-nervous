@@ -46,17 +46,23 @@ class RedisNerve extends Nerve {
   }
 }
 
-// An instance of the Service class just ties together Nerves
-const service = new Service(options, { 
+// Nerves are re-usable, so can be shared between different microservices
+const nerves = {
   pub: new RedisNerve(),
   sub: new RedisNerve(),
-});
+};
+
+// And an instance of the Service class just ties together Nerve instances
+const service = new Service(options, nerves);
 
 // This gives you an event emitter, nothing too special
 service.on('ready', () => console.log('Your service is ready!'));
 
 // But this can be useful
 service.on('end', () => process.exit());
+
+// Events fired by your Nerves are prefixed with the key from the `nerves` object
+service.on('pub-ready', () => console.log('Publish Nerve is ready');
 
 // Service#poweroff shuts down your connections gracefully
 process.on('SIGTERM', () => service.poweroff());
