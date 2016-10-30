@@ -6,10 +6,10 @@
   />
 </p>
 <p align="center">
-<strong><code>micro-nervous</code></strong> is a minimal micro-services framework for Node.js
+<strong><code>micro-nervous</code></strong> is a minimal framework to help you build Node.js micro-services
 </p>
 <p align="center">
-It aims to reduce boilerplate and improve code clarity by managing resource connections, healthchecks, stats, and graceful shutdown with simple patterns
+It aims to reduce boilerplate and improve code clarity by providing simple patterns to manage resource connections, healthchecks, stats, and graceful shutdown
 </p>
 <p align="center">
 All with zero dependencies (because size matters)
