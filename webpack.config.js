@@ -9,7 +9,6 @@ const path = require('path');
 
 module.exports = {
   target: 'node',
-  // devtool: 'eval-source-map',
   entry: [
     path.join(__dirname, 'source', 'index.js'),
   ],
@@ -25,9 +24,11 @@ module.exports = {
         languageIn: 'ECMASCRIPT6',
         languageOut: 'ECMASCRIPT5_STRICT',
         compilationLevel: 'ADVANCED',
-        warningLevel: 'DEFAULT',
-        // applyInputSourceMaps: true,
+        warningLevel: 'VERBOSE',
         processCommonJsModules: true,
+        externs: [
+          { path: './node_modules/google-closure-compiler-js/contrib/nodejs' },
+        ],
       },
     }),
   ],
