@@ -96,23 +96,34 @@ You can also hit `http://host:3000/stats` for some sweet, sweet json. For exampl
 ```json
 {
   "ok": true,
-  "currentTasks": 0,
-  "totalTasks": 9000
+  "currentTasks": 0
 }
 ```
 
-Basic, but you can overwrite `Service#stats` to return whatever you like. Like this:
+The stats json just comes off of `service.stats`, which can be easily overwritten
 
 ```js
 class MyService extends Service {
-  stats() {
-    return { ok: this.started && !this.exiting, tasks: this.tasks.length, answer: 42 };
+  get stats() {
+    return {
+      ok: this.started && !this.exiting,
+      tasks: this.tasks.length,
+      answer: askDeepThought(),
+    };
   }
 }
 ```
 
-Incidentally, `stats().ok` is used for the healthckec: `true` for `200`, anything else gives you a `503`.
+Incidentally, `stats.ok` is used for the healthcheck: `true` for `200`, anything else gives you a `503`.
 
-### Nerves
+### Roadmap
 
-The `Nerves` class also provides a `#fire` method to emit events on the `Service` instance. This is useful for hooking up logging or monitoring.
+Some features that might make it into future versions, in no particular order:
+
+- Example Nerves for common resources, e.g. Redis, Mongo, etc.
+- Type annotations for Closure Compiler
+- Provide time based stats (e.g. tasks per minute), perhaps on a `/stats/minute` route
+
+### Contributing
+
+All help is appreciated! Please just branch `master` and open a PR.
