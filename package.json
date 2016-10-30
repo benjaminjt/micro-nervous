@@ -1,0 +1,19 @@
+{
+  "name": "micro-nervous",
+  "version": "0.1.0",
+  "description": "a minimal micro-services framework",
+  "main": "source/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benjaminjt/micro-nervous.git"
+  },
+  "author": "Benjamin Thompson <me@benjaminjt.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/benjaminjt/micro-nervous/issues"
+  },
+  "homepage": "https://github.com/benjaminjt/micro-nervous#readme"
+}
