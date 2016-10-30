@@ -30,13 +30,13 @@ npm install git+https://git@github.com/benjaminjt/micro-nervous.git
 ```js
 const { Nerve, Service } = require('micro-nervous');
 
-// Resources/Connections are 'Nerves'; just simple classes with a basic interface
+// Resources/Connections are 'Nerves'; simple classes with a basic interface
 class RedisNerve extends Nerve {
   init() {
     // Connection logic goes here:
     this.redis = new Redis('redis://:password@my.redis.resource:6379');
 
-    // When our connection is ready, just call `this.fire('ready')`
+    // When our connection is ready, just fire the `ready` event
     this.redis.once('ready', () => this.fire('ready'));
   }
   exit() {
