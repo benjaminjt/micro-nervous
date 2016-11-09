@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+  - '4'
+  - '5'
+  - '6'
+install:
+  - NODE_ENV=development npm install
+script:
+  - npm run lint
+  - npm run converage
+# deploy:
+#   provider: npm
+#   email: me@benjaminjt.com
+#   repo: benjaminjt/media-events
+#   skip_cleanup: true
+#   api_key:
+#     secure: IVMrRAhEmvhe32qHd8HFYgOqyDPk9igno5T9kOFoahYLfR+vyq9DnBvFWHhPkDDguTwvrLcAOIe6N1yqtHEFbYDrINPfefotzQjXQWW1nw7MfGz6NWLyP+U1rWNSieckpvxN9diLq3VfRJ1TenqUBGMa+28rgRjYRUpXGFyo3RacD3PxK4tJJ//kX299dxCRZ+WitLf1UcBv9Lax1T3xEoat+oWdVLfgZ5rgp8Di9IG9dIZSEYOgh1Rgtil1yhqCBhqmaAn2xUz3ZNGkMgW6VuhBfSw2I7Mj1rVpBLxYnQtNbFTJNkz9NFxXf/Js3uXUTp4aL/K3qbhI/bnxMcjk5aOo0ammNTN0p+gUAWndd26f6ZapsHyp5glxA1Twdg07wGE7ALKGdrfkaXa/+YeM7kSbqEsst7RpEdp8j2FjtuYtQ0oYFqE4+/pxR9mGKhzSDoN7BE/I5zFFUJak1+7WvzexL0sRq8T+7ZRRsYNfjS2KakPi2XZlNLlZHvUhLUSJR+xYGgKSfperyZPuOByCPcdnQYpFNJpcy5ax6rilPqj6ib2gjyKaBYqfTfsfAZ9+K6CsvlcDa+sWe8EPqXWYvdG33oWtMsLvrZ7VfJibKosuC3L4NN2LgDn/deo0/bGONvp38WQne35AOlgiYVvprxWbFXHWw+HM4/u/xvbgHdM=
+#   on:
+#     tags: true
