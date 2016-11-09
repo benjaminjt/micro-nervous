@@ -1,5 +1,5 @@
-[travis-image]: https://img.shields.io/travis/benjaminjt/media-events.svg?style=flat-square
-[travis-url]: https://travis-ci.org/benjaminjt/media-events
+[travis-image]: https://img.shields.io/travis/benjaminjt/micro-nervous.svg?style=flat-square
+[travis-url]: https://travis-ci.org/benjaminjt/micro-nervous
 [license-image]: http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
 [license-url]: LICENSE
 [![Travis][travis-image]][travis-url]
