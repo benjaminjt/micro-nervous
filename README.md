@@ -24,7 +24,6 @@ All with zero dependencies (because size matters)
 
 </br>
 ---
-</br>
 
 [![Travis][travis-image]][travis-url]
 [![Codecov][codecov-image]][codecov-url]
