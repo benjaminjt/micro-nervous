@@ -47,13 +47,13 @@ class RedisNerve extends Nerve {
 }
 
 // Nerves are re-usable, so can be shared between different microservices
-const nerves = {
-  pub: new RedisNerve(),
-  sub: new RedisNerve(),
-};
+const nerves = [
+  new RedisNerve('pub'),
+  new RedisNerve('sub'),
+];
 
 // And an instance of the Service class just ties together Nerve instances
-const service = new Service(options, nerves);
+const service = new Service({ nerves, enableStats: true, statsPort: 3000 });
 
 // This gives you an event emitter, nothing too special
 service.on('ready', () => console.log('Your service is ready!'));
@@ -61,7 +61,7 @@ service.on('ready', () => console.log('Your service is ready!'));
 // But this can be useful
 service.on('end', () => process.exit());
 
-// Events fired by your Nerves are prefixed with the key from the `nerves` object
+// Events fired by your Nerves are prefixed with the name parsed to the `Nerve` constructor
 service.on('pub-ready', () => console.log('Publish Nerve is ready');
 
 // Service#poweroff shuts down your connections gracefully
@@ -104,10 +104,10 @@ The stats json just comes off of `service.stats`, which can be easily overwritte
 
 ```js
 class MyService extends Service {
-  get stats() {
+  getStats() {
     return {
-      ok: this.started && !this.exiting,
-      tasks: this.tasks.length,
+      ok: this.ok,
+      currentTasks: this.stats.currentTasks,
       answer: askDeepThought(),
     };
   }
