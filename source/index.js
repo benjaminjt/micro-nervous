@@ -1,9 +1,10 @@
+const { Nerve, NerveInterface } = require('./Nerve');
 const Service = require('./Service');
-const Nerve = require('./Nerve');
 const Stats = require('./Stats');
 
 module.exports = {
-  Service,
   Nerve,
+  NerveInterface,
+  Service,
   Stats,
 };
