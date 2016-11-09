@@ -1,9 +1,9 @@
 [travis-image]: https://img.shields.io/travis/benjaminjt/micro-nervous.svg?style=flat-square
 [travis-url]: https://travis-ci.org/benjaminjt/micro-nervous
+[codecov-image]: https://img.shields.io/codecov/c/github/benjaminjt/micro-nervous/master.svg?style=flat-square
+[codecov-url]: https://codecov.io/gh/benjaminjt/micro-nervous
 [license-image]: http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
 [license-url]: LICENSE
-[![Travis][travis-image]][travis-url]
-[![License][license-image]][license-url]
 
 <p align="center">
   <img
@@ -25,6 +25,10 @@ All with zero dependencies (because size matters)
 </br>
 ---
 </br>
+
+[![Travis][travis-image]][travis-url]
+[![Codecov][codecov-image]][codecov-url]
+[![License][license-image]][license-url]
 
 ### Install
 
