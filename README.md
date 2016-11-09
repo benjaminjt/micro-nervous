@@ -40,7 +40,7 @@ npm install git+https://git@github.com/benjaminjt/micro-nervous.git
 ```js
 const { Nerve, Service } = require('micro-nervous');
 
-// Resources/Connections are 'Nerves'; simple classes with a basic interface
+// 'Nerves' are simple class wrappers for Resources or Connections with a basic interface
 class RedisNerve extends Nerve {
   init() {
     // Connection logic goes here:
@@ -132,7 +132,6 @@ Some features that might make it into future versions, in no particular order:
 
 - Example Nerves for common resources, e.g. Redis, Mongo, etc.
 - Type annotations for Closure Compiler
-- Provide time based stats (e.g. tasks per minute), perhaps on a `/stats/minute` route
 
 ### Contributing
 
