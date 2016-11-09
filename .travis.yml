@@ -7,7 +7,7 @@ install:
   - NODE_ENV=development npm install
 script:
   - npm run lint
-  - npm run converage
+  - npm run coverage
 # deploy:
 #   provider: npm
 #   email: me@benjaminjt.com
