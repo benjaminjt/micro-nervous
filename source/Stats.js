@@ -45,7 +45,7 @@ class Stats {
   init() {
     if (!this.port) throw new Error('Need to supply a port to initialise stats');
 
-    this.server = Stats.createHttpServer((req, res) => this.handler(req, res));
+    this.server = Stats.createHttpServer(this.handler.bind(this));
     this.server.listen(this.port);
   }
   /**
@@ -64,8 +64,8 @@ class Stats {
    * Callback parsed to http.createServer()
    *
    * @private
-   * @param {http.IncomingMessage} req
-   * @param {http.ServerResponse} res
+   * @param {!http.IncomingMessage} req
+   * @param {!http.ServerResponse} res
   */
   handler(req, res) {
     const pathname = url.parse(req.url).pathname;
@@ -103,8 +103,8 @@ class Stats {
    * Writes HTTP response for the /healthcheck http status route
    *
    * @private
-   * @param {http.IncomingMessage} req
-   * @param {http.ServerResponse} res
+   * @param {!http.IncomingMessage} req
+   * @param {!http.ServerResponse} res
   */
   healthcheckHandler(req, res) {
     const stats = this.getStats();
@@ -125,21 +125,16 @@ class Stats {
    * Writes HTTP response for the /stats http status route
    *
    * @private
-   * @param {http.IncomingMessage} req
-   * @param {http.ServerResponse} res
+   * @param {!http.IncomingMessage} req
+   * @param {!http.ServerResponse} res
   */
   statsHandler(req, res) {
     const stats = this.getStats();
     let statsString;
 
-    // If getStats returns null, send a 503
-    if (!stats) {
-      res.writeHead(503);
-      return;
-    }
-
     // Try to stringify stats string, and send a 503 if it fails
     try {
+      if (!stats) throw new Error();
       statsString = JSON.stringify(stats);
     } catch (error) {
       res.writeHead(503);
