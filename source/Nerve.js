@@ -3,7 +3,7 @@
 /**
  * Interface definition for the Nerve
  *
- * @interface
+ * @record
 */
 function NerveInterface() {}
 NerveInterface.prototype.init = function init() {};
@@ -34,19 +34,15 @@ class Nerve {
    * Attach the Nerve to a fire method or an emitter class
    *
    * @public
-   * @param {{
-   *   fire: function(string, ...)
-   * }} emitter
+   * @param {function(string, ...)} emit
   */
-  attach(emitter) {
-    if (!emitter) {
-      throw new Error('Must parse a funcion or class with #emit method to Nerve#attach');
-    } else if (typeof emitter.emit === 'function') {
-      this.bindFire(emitter.emit);
-    } else if (typeof emitter.fire === 'function') {
-      this.bindFire(emitter.fire);
+  attach(emit) {
+    if (!emit) {
+      throw new Error('Must parse an emit funcion to Nerve#attach');
+    } else if (typeof emit === 'function') {
+      this.bindFire(emit);
     } else {
-      throw new Error('Can not attach fire method for', emitter);
+      throw new Error('Can not attach fire method for', emit);
     }
   }
   /**
@@ -64,8 +60,8 @@ class Nerve {
    *
    * @private
   */
-  realFire(...args) {
-    this.attachments.forEach(fire => fire(...args));
+  realFire(type, ...args) {
+    this.attachments.forEach(fire => fire(this.event(type), ...args));
   }
   /**
    * Placeholder #fire method, to be overridden
@@ -90,6 +86,15 @@ class Nerve {
   */
   exit() {
     throw new Error('Nerve exit function no implimented.');
+  }
+  /**
+   * Static method to check a Nerve instance matches the interface
+   *
+   * @param {string} type
+   * @returns {string}
+  */
+  event(type) {
+    return `${this.name}-${type}`;
   }
   /**
    * Static method to check a Nerve instance matches the interface
