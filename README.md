@@ -69,13 +69,13 @@ const service = new Service({ nerves, enableStats: true, statsPort: 3000 });
 service.on('ready', () => console.log('Your service is ready!'));
 
 // But this can be useful
-service.on('end', () => process.exit());
+service.on('end', code => process.exit(code));
 
 // Events fired by your Nerves are prefixed with the name parsed to the `Nerve` constructor
 service.on('pub-ready', () => console.log('Publish Nerve is ready');
 
 // Service#poweroff shuts down your connections gracefully
-process.on('SIGTERM', () => service.poweroff());
+process.once('SIGTERM', () => service.poweroff());
 
 // Just like Service#connect gets your connections started
 service.connect();
