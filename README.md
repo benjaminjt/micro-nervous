@@ -83,13 +83,13 @@ service.connect();
 // You also get access to the Nerve instances
 service.nerve.sub.redis.subscribe('channel', (message) => {
   // And a tasking system to prevent unwanted shutdowns
-  const id = service.newTask();
+  const task = service.newTask();
   // Now Service#poweroff will wait...
   // You can do lots of stuff... async stuff...
   // And even if you get a SIGTERM, from say, kubernetes...
   // Your task be allowed to finish before your connections are dropped!
   console.log('Yay, message:', message);
-  service.endTask(id);
+  task.done();
 });
 
 // The Nerve instances are attached using the keys used in the constructor
