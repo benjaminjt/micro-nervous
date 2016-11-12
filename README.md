@@ -32,7 +32,7 @@ All with zero dependencies (because size matters)
 ### Install
 
 ```bash
-npm install git+https://git@github.com/benjaminjt/micro-nervous.git
+npm install micro-nervous
 ```
 
 ### Overview
