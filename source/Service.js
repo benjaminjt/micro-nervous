@@ -72,7 +72,7 @@ class Service extends EventEmitter {
     this.taskOnDone = this.taskOnDone.bind(this);
   }
   /**
-   * Factory for stats instances for stubbing in tests
+   * Factory for stats instances
    *
    * @param {{
    *   port: number,
@@ -142,7 +142,7 @@ class Service extends EventEmitter {
     return new Task({
       id,
       onError: this.taskOnError,
-      onFatal: this.taksOnFatalError,
+      onFatal: this.taskOnFatal,
       onDone: this.taskOnDone,
     });
   }
@@ -251,7 +251,7 @@ class Service extends EventEmitter {
   connect() {
     if (this.statsEnabled) {
       this.stats = Service.createStats({
-        getStats: () => this.getStats(),
+        getStats: this.getStats.bind(this),
         port: this.statsPort,
       });
     }
@@ -306,7 +306,7 @@ class Service extends EventEmitter {
     return this.waitForTasks()
       .then(() => this.exitNerves())
       .then(() => this.emit('end', code))
-      .catch(error => this.emit('error', error));
+      .catch(error => this.emit('error', error) && Promise.reject(error));
   }
 }
 

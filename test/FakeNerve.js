@@ -22,6 +22,7 @@ module.exports = class FakeNerve extends Nerve {
     if (this.options.waitForReady !== true) this.fire('ready');
   }
   exit() {
+    if (this.options.exitThrows) throw new Error('Fake nerve exit error');
     if (this.options.waitForEnd !== true) this.fire('end');
   }
 };

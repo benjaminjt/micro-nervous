@@ -53,7 +53,7 @@ class Nerve {
   */
   bindFire(fire) {
     this.fire = this.realFire;
-    this.attachments.push(fire);
+    this.attachments.push((type, ...args) => fire(this.event(type), ...args));
   }
   /**
    * Calls each fucntion in this this.attachments
@@ -61,7 +61,7 @@ class Nerve {
    * @private
   */
   realFire(type, ...args) {
-    this.attachments.forEach(fire => fire(this.event(type), ...args));
+    this.attachments.forEach(fire => fire(type, ...args));
   }
   /**
    * Placeholder #fire method, to be overridden
