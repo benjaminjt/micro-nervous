@@ -40,7 +40,7 @@ npm install micro-nervous
 ```js
 const { Nerve, Service } = require('micro-nervous');
 
-// 'Nerves' are simple class wrappers for Resources or Connections with a basic interface
+// 'Nerves' are simple class wrappers for Resources or Connections
 class RedisNerve extends Nerve {
   init() {
     // Connection logic goes here:
@@ -71,7 +71,7 @@ service.on('ready', () => console.log('Your service is ready!'));
 // But this can be useful
 service.on('end', code => process.exit(code));
 
-// Events fired by your Nerves are prefixed with the name parsed to the `Nerve` constructor
+// Events fired by your Nerves are prefixed with their name
 service.on('pub-ready', () => console.log('Publish Nerve is ready');
 
 // Service#poweroff shuts down your connections gracefully
