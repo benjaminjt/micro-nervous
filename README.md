@@ -5,6 +5,8 @@
 [license-image]: http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
 [license-url]: LICENSE
 
+</br>
+
 <p align="center">
   <img
     alt="Media Events Logo"
@@ -12,12 +14,15 @@
     width="100px"
   />
 </p>
+
 <p align="center">
 <strong><code>micro-nervous</code></strong> is a minimal framework to help you build Node.js micro-services
 </p>
+
 <p align="center">
 It aims to reduce boilerplate and improve code clarity by providing simple patterns to manage resource connections, healthchecks, stats, and graceful shutdown
 </p>
+
 <p align="center">
 All with zero dependencies (because size matters)
 </p>
@@ -135,4 +140,4 @@ Some features that might make it into future versions, in no particular order:
 
 ### Contributing
 
-All help is appreciated! Please just branch `master` and open a PR.
+All help is appreciated! Feel free to fork, branch `master` and open a PR. Thanks!
