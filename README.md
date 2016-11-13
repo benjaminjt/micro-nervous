@@ -71,7 +71,7 @@ const nerves = [
 const stats = new Stats({ port: 3000 });
 
 // Instance of the Service class just ties together Nerve instances and stats
-const service = new Service({ nerves, stats );
+const service = new Service({ nerves, stats });
 
 // This gives you an event emitter, nothing too special
 service.on('ready', () => console.log('Your service is ready!'));
