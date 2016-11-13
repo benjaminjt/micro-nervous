@@ -118,7 +118,7 @@ You can also hit `http://host:3000/stats` for some sweet, sweet json. For exampl
 }
 ```
 
-The stats json just comes off of `service.stats`, which can be easily overwritten
+The stats json just comes from `service.getStats()`, which can be easily overwritten
 
 ```js
 class MyService extends Service {
