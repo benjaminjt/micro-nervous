@@ -1,7 +1,6 @@
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "NerveInterface" }] */
 const { EventEmitter } = require('events');
 const { Nerve, NerveInterface } = require('./Nerve');
-const Stats = require('./Stats');
 const Task = require('./Task');
 
 /**
@@ -20,19 +19,14 @@ class Service extends EventEmitter {
 
     /**
      * @private
-     * @const {bool}
+     * @const {?Stats}
     */
-    this.statsEnabled = opts.statsEnabled;
+    this.stats = opts.stats;
     /**
      * @private
      * @const {number}
     */
-    this.statsPort = opts.statsPort;
-    /**
-     * @private
-     * @const {number}
-    */
-    this.maxTasks = opts.maxTasks || 0;
+    this.maxTasks = opts.maxTasks;
     /**
      * @private
      * @const {!Array<!NerveInterface>}
@@ -70,18 +64,6 @@ class Service extends EventEmitter {
     this.taskOnError = this.taskOnError.bind(this);
     this.taskOnFatal = this.taskOnFatal.bind(this);
     this.taskOnDone = this.taskOnDone.bind(this);
-  }
-  /**
-   * Factory for stats instances
-   *
-   * @param {{
-   *   port: number,
-   *   getStats: (function(): {?})
-   * }} options
-   * @returns {!Stats}
-  */
-  static createStats(options) {
-    return new Stats(options);
   }
   /**
    * Get the service's status
@@ -249,11 +231,8 @@ class Service extends EventEmitter {
    * @returns {!Promise}
   */
   connect() {
-    if (this.statsEnabled) {
-      this.stats = Service.createStats({
-        getStats: this.getStats.bind(this),
-        port: this.statsPort,
-      });
+    if (this.stats && typeof this.stats.attach === 'function') {
+      this.stats.attach(this.getStats.bind(this));
     }
 
     try {
@@ -265,7 +244,10 @@ class Service extends EventEmitter {
 
     return this.initNerves()
       .then(() => {
-        if (this.stats) this.stats.init();
+        if (this.stats && typeof this.stats.init === 'function') {
+          this.stats.init();
+        }
+
         this.started = true;
         this.emit('ready');
       })
@@ -303,7 +285,9 @@ class Service extends EventEmitter {
     }
 
     this.exiting = true;
+
     return this.waitForTasks()
+      .then(() => this.stats && this.stats.exit && this.stats.exit())
       .then(() => this.exitNerves())
       .then(() => this.emit('end', code))
       .catch(error => this.emit('error', error) && Promise.reject(error));
@@ -330,8 +314,7 @@ Service.OptionsType = {};
 */
 Service.DEFAULTS = {
   nerves: [],
-  statsEnabled: true,
-  statsPort: 3001,
+  maxTasks: 0,
 };
 
 module.exports = Service;

@@ -4,14 +4,12 @@ import sinon from 'sinon';
 import { Service, Nerve, Stats } from '../source';
 import FakeNerve from './FakeNerve';
 
-// Stub createStats to avoid binding ports
-sinon.stub(Service, 'createStats', () => sinon.createStubInstance(Stats));
-
 /**
  * Helpers
 */
 function newService(...nerves) {
-  return new Service({ nerves: [...nerves] });
+  const stats = sinon.createStubInstance(Stats);
+  return new Service({ nerves: [...nerves], stats });
 }
 function emitPromise(emitter, event, value) {
   return new Promise(resolve => emitter.once(event, () => resolve(value)));
@@ -148,14 +146,6 @@ test('Creates a stats instance and calls stats.init once nerves are ready', asyn
   // Once the service is ready, check that init has been called
   await ready;
   t.is(service.stats.init.callCount, 1);
-});
-
-test('Does not start a stats instance if statsEnabled is false', async (t) => {
-  const service = new Service({ statsEnabled: false });
-  await service.connect();
-
-  // Check that stats instanceis blank
-  t.false(service.stats instanceof Stats);
 });
 
 test('The #ok getter returns true while the service is okay', async (t) => {

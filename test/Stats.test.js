@@ -16,9 +16,9 @@ function httpMock(url, method) {
 }
 
 function createStats(fakeStats) {
-  return new Stats({
-    getStats: () => (fakeStats || { ok: true }),
-  });
+  const stats = new Stats({});
+  stats.attach(() => fakeStats || { ok: true });
+  return stats;
 }
 
 /**
@@ -46,6 +46,22 @@ test('#init calls #createHttpServer followed by Server#listen with the provided 
   t.is(listenStub.callCount, 1);
   t.true(listenStub.calledWith(port));
   createHttpServerStub.restore();
+});
+
+/**
+ * Tests for Stats#attach
+*/
+
+test('#attach assigns a new function to stats.getStats', (t) => {
+  const stats = new Stats({});
+  const getStats = () => ({ ok: true });
+  stats.attach(getStats);
+  t.is(stats.getStats, getStats);
+});
+
+test('#attach throws if parsed a non-function', (t) => {
+  const stats = new Stats({});
+  t.throws(() => stats.attach('fail'));
 });
 
 /**
@@ -79,6 +95,15 @@ test('#handler sends a 200 response for requests to /healthcheck when ok === tru
   t.true(res.hasEnded());
 });
 
+test('#handler sends a 200 response for requests to /ok when ok === true', (t) => {
+  const stats = createStats({ ok: true });
+  const { req, res } = httpMock('http://fakeserver:3001/ok');
+  stats.handler(req, res);
+  t.is(res.statusCode, 200);
+  t.true(res.headersSent);
+  t.true(res.hasEnded());
+});
+
 test('#handler sends a 503 response for requests to /healthcheck when ok === false', (t) => {
   const stats = createStats({ ok: false });
   const { req, res } = httpMock('http://fakeserver:3001/healthcheck');
@@ -101,7 +126,8 @@ test('#handler sends 200 response with json stats for requests to /stats', (t) =
 });
 
 test('#handler sends 503 for requests to /stats if #getStats fails to return an object', (t) => {
-  const stats = new Stats({ getStats: () => null });
+  const stats = new Stats({});
+  stats.attach(() => null);
   const { req, res } = httpMock('http://fakeserver:3001/stats');
   stats.handler(req, res);
   t.is(res.statusCode, 503);

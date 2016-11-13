@@ -43,7 +43,7 @@ npm install micro-nervous
 ### Overview
 
 ```js
-const { Nerve, Service } = require('micro-nervous');
+const { Nerve, Stats, Service } = require('micro-nervous');
 
 // 'Nerves' are simple class wrappers for Resources or Connections
 class RedisNerve extends Nerve {
@@ -67,8 +67,11 @@ const nerves = [
   new RedisNerve('sub'),
 ];
 
-// And an instance of the Service class just ties together Nerve instances
-const service = new Service({ nerves, enableStats: true, statsPort: 3000 });
+// A stats instance serves healthchecks and stats over http
+const stats = new Stats({ port: 3000 });
+
+// Instance of the Service class just ties together Nerve instances and stats
+const service = new Service({ nerves, stats );
 
 // This gives you an event emitter, nothing too special
 service.on('ready', () => console.log('Your service is ready!'));

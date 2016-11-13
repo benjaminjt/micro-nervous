@@ -11,36 +11,40 @@ class Stats {
    *
    * Options
    * - `port` {Number} http port
-   * - `getStats` {Function} stats callback; should return a stats object with an `ok` boolean
    *
    * @param {{
-   *   port: number,
-   *   getStats: ?function():{ ok: boolean }
+   *   port: number
    * }} options
   */
   constructor(options) {
     /**
-     * @const {function():{ ok: boolean }}
-    */
-    this.getStats = typeof options.getStats === 'function'
-      ? options.getStats
-      // If options.getStats isn't a function, just assume ok
-      : () => ({ ok: true });
-
-    /**
      * @const {number}
     */
     this.port = options.port;
-
     /**
      * @type {?http.Server}
     */
     this.server = null;
+    /**
+     * Default getStats function in case #attach() isn't called
+     *
+     * @type {function(): ({ ok: boolean })}
+    */
+    this.getStats = () => ({ ok: true });
   }
   /**
-   * init
+   * Attach a new getStats function
    *
-   * Creates and starts http status server for healtchecks and stats
+   * @param {function(): ({ ok: boolean })} getStats
+  */
+  attach(getStats) {
+    if (typeof getStats === 'function') this.getStats = getStats;
+    else throw new Error('must parse a function Stats#attach');
+  }
+  /**
+   * Creates the http server and starts serving stats
+   *
+   * @public
   */
   init() {
     if (!this.port) throw new Error('Need to supply a port to initialise stats');
@@ -49,11 +53,11 @@ class Stats {
     this.server.listen(this.port);
   }
   /**
-   * handler
-   *
    * Provider for the http.createServer method
    *
    * @private
+   * @param {!Stats.handler} handler
+   * @return {!http.Server}
   */
   static createHttpServer(handler) {
     return http.createServer(handler);
@@ -80,6 +84,7 @@ class Stats {
 
     // Handle paths appropriately
     switch (pathname) {
+      case '/ok':
       case '/healthcheck':
         this.healthcheckHandler(req, res);
         break;
@@ -149,7 +154,6 @@ class Stats {
    * exit
    *
    * Closes the http server instance
-   * @return {string}
   */
   exit() {
     this.server.close();
