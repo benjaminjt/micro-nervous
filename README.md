@@ -40,6 +40,8 @@ All with zero dependencies (because size matters)
 npm install micro-nervous
 ```
 
+Note: Node version `6.0.0` or higher is required.
+
 ### Overview
 
 ```js

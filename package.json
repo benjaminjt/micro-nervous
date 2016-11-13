@@ -2,6 +2,7 @@
   "name": "micro-nervous",
   "version": "2.0.4",
   "description": "a minimal micro-services framework",
+  "engines" : { "node" : ">=6.0.0" },
   "main": "source/index.js",
   "scripts": {
     "release": "npm run lint && npm run cc && npm run test",
