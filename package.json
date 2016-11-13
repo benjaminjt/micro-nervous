@@ -1,6 +1,6 @@
 {
   "name": "micro-nervous",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "a minimal micro-services framework",
   "main": "source/index.js",
   "scripts": {
