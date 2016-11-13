@@ -105,7 +105,7 @@ service.nerve.pub.redis.publish('channel', 'hello world!');
 ```
 
 ### Healthchecks
-Once you call `Service#start` you can hit `http://host:3000` (or the port of your choosing) for that `200 OK` feeling!
+Once you call `Service#start` you can hit `http://host:3000/ok` (or the port of your choosing) for that `200 OK` feeling!
 Obviously that goes away the moment something goes wrong. Or when you call `Service#poweroff`, I guess.
 
 ### Stats
